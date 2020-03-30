@@ -189,8 +189,9 @@ export const DefaultFlash = ({
   hideStatusBar = false,
   ...props
 }) => {
+  console.log('autoHide: ', autoHide);
   const hasDescription = !!message.description && message.description !== "";
-  const showCloseIcon = !!!autoHide;
+  const showCloseIcon = !autoHide;
   const iconView =
     !!icon &&
     !!icon.icon &&
