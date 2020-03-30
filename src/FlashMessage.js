@@ -200,11 +200,11 @@ export const DefaultFlash = ({
       icon.position === "right" && styles.flashIconRight,
       icon.style,
     ]);
-  const closeIconView =
-    showCloseIcon &&
-    renderCloseIcon([
-      !!icon && icon.position === "right" && styles.closeIconLeft,
-    ]);
+  // const closeIconView =
+  //   showCloseIcon &&
+  //   renderCloseIcon([
+  //     !!icon && icon.position === "right" && styles.closeIconLeft,
+  //   ]);
   const hasIcon = !!iconView;
 
   return (
@@ -231,7 +231,7 @@ export const DefaultFlash = ({
           )}
           {...props}>
           {hasIcon && icon.position === "left" && iconView}
-          {showCloseIcon && hasIcon && icon.position === "right" && closeIconView}
+          {showCloseIcon && hasIcon && icon.position === "right" && renderCloseIcon()}
           <View style={[
             styles.flashLabel,
             labelStyle,
@@ -253,7 +253,7 @@ export const DefaultFlash = ({
             )}
           </View>
           {hasIcon && icon.position === "right" && iconView}
-          {showCloseIcon && closeIconView}
+          {showCloseIcon && renderCloseIcon()}
           {/* {!autoHide || (hasIcon && icon.position === "left" && !autoHide) && closeIconView} */}
         </View>
       )}
@@ -698,5 +698,7 @@ const styles = StyleSheet.create({
     marginTop: -1,
     width: 21,
     height: 21,
+    marginRight: -6,
+    marginLeft: 9,
   },
 });
