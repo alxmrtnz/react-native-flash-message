@@ -253,7 +253,7 @@ export const DefaultFlash = ({
             )}
           </View>
           {hasIcon && icon.position === "right" && iconView}
-          {showCloseIcon && renderCloseIcon()}
+          {renderCloseIcon()}
           {/* {!autoHide || (hasIcon && icon.position === "left" && !autoHide) && closeIconView} */}
         </View>
       )}
