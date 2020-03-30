@@ -163,9 +163,10 @@ export const renderFlashMessageIcon = (icon = "success", style = {}, customProps
 };
 
 export const renderCloseIcon = (style = {}, customProps = {}) => {
-  console.log('render close icon :)')
   return (
-    <Image style={[styles.closeIcon, style]} source={require("./icons/fm_icon_success.png")} {...customProps} />
+    <View style={[styles.closeIconContainer]}>
+      <Image style={[styles.closeIcon, style]} source={require("./icons/fm_icon_close.png")} {...customProps} />
+    </View>
   );
 };
 
@@ -189,9 +190,7 @@ export const DefaultFlash = ({
   hideStatusBar = false,
   ...props
 }) => {
-  console.log('autoHide: ', autoHide);
   const hasDescription = !!message.description && message.description !== "";
-  const showCloseIcon = autoHide;
   const iconView =
     !!icon &&
     !!icon.icon &&
@@ -200,12 +199,18 @@ export const DefaultFlash = ({
       icon.position === "right" && styles.flashIconRight,
       icon.style,
     ]);
-  // const closeIconView =
-  //   showCloseIcon &&
-  //   renderCloseIcon([
-  //     !!icon && icon.position === "right" && styles.closeIconLeft,
-  //   ]);
-  const hasIcon = !!iconView;
+  const closeIconView =
+    renderCloseIcon([
+      !!icon && icon.position === "right" && styles.closeIconLeft,
+    ]);
+  const hasIcon = !!icon;
+  const showCloseIcon = !autoHide;
+  const showCloseLeft = showCloseIcon && hasIcon ?
+    icon.position === 'right'
+    : showCloseIcon;
+  const showCloseRight = showCloseIcon && hasIcon ?
+    icon.position === 'left'
+    : showCloseIcon;
 
   return (
     <FlashMessageWrapper position={typeof position === "string" ? position : null}>
@@ -231,7 +236,7 @@ export const DefaultFlash = ({
           )}
           {...props}>
           {hasIcon && icon.position === "left" && iconView}
-          {showCloseIcon && hasIcon && icon.position === "right" && renderCloseIcon()}
+          {showCloseLeft && closeIconView}
           <View style={[
             styles.flashLabel,
             labelStyle,
@@ -253,8 +258,7 @@ export const DefaultFlash = ({
             )}
           </View>
           {hasIcon && icon.position === "right" && iconView}
-          {renderCloseIcon()}
-          {/* {!autoHide || (hasIcon && icon.position === "left" && !autoHide) && closeIconView} */}
+          { showCloseRight && closeIconView}
         </View>
       )}
     </FlashMessageWrapper>
@@ -585,9 +589,7 @@ export default class FlashMessage extends Component {
     const transitionConfig = this.prop(message, "transitionConfig");
     const animated = this.isAnimated(message);
     const animStyle = animated ? transitionConfig(visibleValue, position) : {};
-    // const autoHide = this.prop(message, "autoHide");
-    // console.log('autohide 1: ', autoHide);
-    const autoHide = false;
+    const autoHide = this.prop(message, "autoHide");
 
     return (
       <Animated.View
@@ -695,10 +697,19 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     tintColor: "#fff",
-    marginTop: -1,
-    width: 21,
-    height: 21,
+    width: 12,
+    height: 12,
     marginRight: -6,
     marginLeft: 9,
   },
+  closeIconLeft: {
+    marginLeft: -6,
+    marginRight: 9,
+  },
+  closeIconContainer: {
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
