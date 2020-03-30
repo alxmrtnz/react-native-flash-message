@@ -163,6 +163,7 @@ export const renderFlashMessageIcon = (icon = "success", style = {}, customProps
 };
 
 export const renderCloseIcon = (style = {}, customProps = {}) => {
+  console.log('render close icon :)')
   return (
     <Image style={[styles.closeIcon, style]} source={require("./icons/fm_icon_success.png")} {...customProps} />
   );
@@ -250,7 +251,8 @@ export const DefaultFlash = ({
             )}
           </View>
           {hasIcon && icon.position === "right" && iconView}
-          {!autoHide || (hasIcon && icon.position === "left" && !autoHide) && closeIconView}
+          {closeIconView}
+          {/* {!autoHide || (hasIcon && icon.position === "left" && !autoHide) && closeIconView} */}
         </View>
       )}
     </FlashMessageWrapper>
