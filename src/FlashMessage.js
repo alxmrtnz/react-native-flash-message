@@ -586,6 +586,7 @@ export default class FlashMessage extends Component {
     const animated = this.isAnimated(message);
     const animStyle = animated ? transitionConfig(visibleValue, position) : {};
     const autoHide = this.prop(message, "autoHide");
+    console.log('autohide 1: ', autoHide);
 
     return (
       <Animated.View
@@ -608,7 +609,7 @@ export default class FlashMessage extends Component {
               textStyle={textStyle}
               titleStyle={titleStyle}
               labelStyle={labelStyle}
-              autoHide={autoHide}
+              autoHide={!!autoHide}
             />
           </TouchableWithoutFeedback>
         )}
