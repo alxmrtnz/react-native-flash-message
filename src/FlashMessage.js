@@ -191,7 +191,7 @@ export const DefaultFlash = ({
 }) => {
   console.log('autoHide: ', autoHide);
   const hasDescription = !!message.description && message.description !== "";
-  const showCloseIcon = !!autoHide && !autoHide;
+  const showCloseIcon = autoHide;
   const iconView =
     !!icon &&
     !!icon.icon &&
@@ -585,8 +585,9 @@ export default class FlashMessage extends Component {
     const transitionConfig = this.prop(message, "transitionConfig");
     const animated = this.isAnimated(message);
     const animStyle = animated ? transitionConfig(visibleValue, position) : {};
-    const autoHide = this.prop(message, "autoHide");
-    console.log('autohide 1: ', autoHide);
+    // const autoHide = this.prop(message, "autoHide");
+    // console.log('autohide 1: ', autoHide);
+    const autoHide = false;
 
     return (
       <Animated.View
