@@ -162,6 +162,12 @@ export const renderFlashMessageIcon = (icon = "success", style = {}, customProps
   }
 };
 
+export const renderCloseIcon = (style = {}, customProps = {}) => {
+  return (
+    <Image style={[styles.closeIcon, style]} source={require("./icons/fm_icon_success.png")} {...customProps} />
+  );
+};
+
 /**
  * Default MessageComponent used in FlashMessage
  * This component it's wrapped in `FlashMessageWrapper` to handle orientation change and extra inset padding in special devices
@@ -174,6 +180,7 @@ export const DefaultFlash = ({
   titleStyle,
   labelStyle,
   renderFlashMessageIcon,
+  autoHide,
   position = "top",
   renderCustomContent,
   floating = false,
@@ -189,6 +196,11 @@ export const DefaultFlash = ({
       icon.position === "left" && styles.flashIconLeft,
       icon.position === "right" && styles.flashIconRight,
       icon.style,
+    ]);
+  const closeIconView =
+    !autoHide &&
+    renderCloseIcon([
+      !!icon && icon.position === "right" && styles.closeIconLeft,
     ]);
   const hasIcon = !!iconView;
 
@@ -216,6 +228,7 @@ export const DefaultFlash = ({
           )}
           {...props}>
           {hasIcon && icon.position === "left" && iconView}
+          {!autoHide && hasIcon && icon.position === "right" && closeIconView}
           <View style={[
             styles.flashLabel,
             labelStyle,
@@ -237,6 +250,7 @@ export const DefaultFlash = ({
             )}
           </View>
           {hasIcon && icon.position === "right" && iconView}
+          {!autoHide || (hasIcon && icon.position === "left" && !autoHide) && closeIconView}
         </View>
       )}
     </FlashMessageWrapper>
@@ -589,6 +603,7 @@ export default class FlashMessage extends Component {
               textStyle={textStyle}
               titleStyle={titleStyle}
               labelStyle={labelStyle}
+              autoHide={autoHide}
             />
           </TouchableWithoutFeedback>
         )}
@@ -670,5 +685,11 @@ const styles = StyleSheet.create({
   flashIconRight: {
     marginRight: -6,
     marginLeft: 9,
+  },
+  closeIcon: {
+    tintColor: "#fff",
+    marginTop: -1,
+    width: 21,
+    height: 21,
   },
 });
