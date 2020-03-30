@@ -190,6 +190,7 @@ export const DefaultFlash = ({
   ...props
 }) => {
   const hasDescription = !!message.description && message.description !== "";
+  const showCloseIcon = !!!autoHide;
   const iconView =
     !!icon &&
     !!icon.icon &&
@@ -199,7 +200,7 @@ export const DefaultFlash = ({
       icon.style,
     ]);
   const closeIconView =
-    !autoHide &&
+    showCloseIcon &&
     renderCloseIcon([
       !!icon && icon.position === "right" && styles.closeIconLeft,
     ]);
@@ -229,7 +230,7 @@ export const DefaultFlash = ({
           )}
           {...props}>
           {hasIcon && icon.position === "left" && iconView}
-          {!autoHide && hasIcon && icon.position === "right" && closeIconView}
+          {showCloseIcon && hasIcon && icon.position === "right" && closeIconView}
           <View style={[
             styles.flashLabel,
             labelStyle,
@@ -251,7 +252,7 @@ export const DefaultFlash = ({
             )}
           </View>
           {hasIcon && icon.position === "right" && iconView}
-          {closeIconView}
+          {showCloseIcon && closeIconView}
           {/* {!autoHide || (hasIcon && icon.position === "left" && !autoHide) && closeIconView} */}
         </View>
       )}
